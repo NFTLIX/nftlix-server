@@ -7,14 +7,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import skku.nftlix_server.member.service.MemberService;
 import skku.nftlix_server.nft.dto.request.NftRequest;
+import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
 import skku.nftlix_server.nft.service.NftService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/nft")
+@RequestMapping("/api/nfts")
 @Slf4j
 public class NftController {
 
@@ -27,5 +29,11 @@ public class NftController {
                                  HttpServletRequest request) throws IOException {
 
         return nftService.createNft(nftRequest, image, memberService.getLoginMember(request));
+    }
+
+    @GetMapping
+    public List<MultipleNftResponse> findAllNft() {
+
+        return nftService.findAllNft();
     }
 }
