@@ -14,6 +14,7 @@ import skku.nftlix_server.nft.Nft;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.ImageResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
+import skku.nftlix_server.nft.exception.ImageServerException;
 import skku.nftlix_server.nft.exception.NftNotFoundException;
 import skku.nftlix_server.nft.repository.NftRepository;
 import skku.nftlix_server.util.BashService;
@@ -79,7 +80,7 @@ public class NftService {
                     responseBody.metadataUrl()
             ).getId());
         } else {
-            throw new IllegalArgumentException("exception occurred in nftlix ai api");
+            throw new ImageServerException();
         }
     }
 

@@ -1,6 +1,7 @@
 package skku.nftlix_server.member.service;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import skku.nftlix_server.member.dto.request.SignUpRequest;
 import skku.nftlix_server.member.dto.response.LoginResponse;
 import skku.nftlix_server.member.exception.LoginIdAlreadyExistsException;
 import skku.nftlix_server.member.exception.MemberNotFoundException;
+import skku.nftlix_server.member.exception.NoLoginMemberException;
 import skku.nftlix_server.member.exception.WrongPasswordException;
 import skku.nftlix_server.member.repository.MemberRepository;
 
@@ -53,5 +55,24 @@ public class MemberService {
         response.addCookie(memberCookie);
 
         return new LoginResponse(findMember.getId());
+    }
+
+    public Member getLoginMember(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        // 쿠키가 없을 경우
+        if (cookies == null) {
+            throw new NoLoginMemberException();
+        }
+
+        // 원하는 쿠키 이름으로 탐색
+        for (Cookie cookie : cookies) {
+            if ("memberId".equals(cookie.getName())) {
+                return memberRepository.findById(cookie.getValue())
+                        .orElseThrow(() -> new MemberNotFoundException(cookie.getValue()));
+            }
+        }
+
+        throw new NoLoginMemberException();
     }
 }
