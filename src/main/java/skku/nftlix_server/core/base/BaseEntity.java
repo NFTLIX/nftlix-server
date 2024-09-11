@@ -12,9 +12,6 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
