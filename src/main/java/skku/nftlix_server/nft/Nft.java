@@ -12,6 +12,9 @@ import skku.nftlix_server.core.base.BaseEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Nft extends BaseEntity {
 
+    @Id
+    private String id;
+
     private String memberId;
 
     private String name;
@@ -33,18 +36,10 @@ public class Nft extends BaseEntity {
     private String previewImageUrl;
 
     @Column(columnDefinition = "TEXT")
-    private String mainImageFileName;
-
-    @Column(columnDefinition = "TEXT")
-    private String previewImageFileName;
-
-    @Column(columnDefinition = "TEXT")
     private String metadataUrl;
 
-    @Column(columnDefinition = "TEXT")
-    private String metadataFileName;
-
     private Nft(
+            String id,
             String memberId,
             String name,
             String description,
@@ -53,10 +48,8 @@ public class Nft extends BaseEntity {
             String privilege,
             String mainImageUrl,
             String previewImageUrl,
-            String mainImageFileName,
-            String previewImageFileName,
-            String metadataUrl,
-            String metadataFileName) {
+            String metadataUrl) {
+        this.id = id;
         this.memberId = memberId;
         this.name = name;
         this.description = description;
@@ -65,13 +58,11 @@ public class Nft extends BaseEntity {
         this.privilege = privilege;
         this.mainImageUrl = mainImageUrl;
         this.previewImageUrl = previewImageUrl;
-        this.mainImageFileName = mainImageFileName;
-        this.previewImageFileName = previewImageFileName;
         this.metadataUrl = metadataUrl;
-        this.metadataFileName = metadataFileName;
     }
 
     public static Nft createNft(
+            String id,
             String memberId,
             String name,
             String description,
@@ -80,12 +71,10 @@ public class Nft extends BaseEntity {
             String privilege,
             String mainImageUrl,
             String previewImageUrl,
-            String mainImageFileName,
-            String previewImageFileName,
-            String metadataUrl,
-            String metadataFileName
+            String metadataUrl
     ) {
         return new Nft(
+                id,
                 memberId,
                 name,
                 description,
@@ -94,9 +83,6 @@ public class Nft extends BaseEntity {
                 privilege,
                 mainImageUrl,
                 previewImageUrl,
-                mainImageFileName,
-                previewImageFileName,
-                metadataUrl,
-                metadataFileName);
+                metadataUrl);
     }
 }
