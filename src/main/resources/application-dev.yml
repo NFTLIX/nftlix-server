@@ -13,3 +13,9 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+springdoc:
+  swagger-ui:
+    path: /nftlix-docs.html
+    query-config-enabled: true
+    enabled: true
