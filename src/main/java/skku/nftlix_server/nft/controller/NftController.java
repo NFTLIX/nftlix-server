@@ -9,6 +9,7 @@ import skku.nftlix_server.member.service.MemberService;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
+import skku.nftlix_server.nft.dto.response.SingleNftResponse;
 import skku.nftlix_server.nft.service.NftService;
 
 import java.io.IOException;
@@ -35,5 +36,11 @@ public class NftController {
     public List<MultipleNftResponse> findAllNft() {
 
         return nftService.findAllNft();
+    }
+
+    @GetMapping("/{id}")
+    public SingleNftResponse findNft(@PathVariable String id) {
+
+        return nftService.findSingleNft(id);
     }
 }
