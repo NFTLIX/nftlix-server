@@ -3,6 +3,7 @@ package skku.nftlix_server.nft.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,6 +14,7 @@ import skku.nftlix_server.member.Member;
 import skku.nftlix_server.nft.Nft;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.ImageResponse;
+import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
 import skku.nftlix_server.nft.exception.ImageServerException;
 import skku.nftlix_server.nft.exception.NftNotFoundException;
@@ -103,5 +105,13 @@ public class NftService {
                                 metadataUrl)));
 
         bashService.executeCommand(generateNFTCommand);
+    }
+
+    public List<MultipleNftResponse> findAllNft() {
+
+        return nftRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
+                .stream()
+                .map(MultipleNftResponse::of)
+                .toList();
     }
 }
