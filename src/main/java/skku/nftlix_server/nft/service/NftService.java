@@ -11,11 +11,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import skku.nftlix_server.member.Member;
+import skku.nftlix_server.member.exception.MemberNotFoundException;
+import skku.nftlix_server.member.repository.MemberRepository;
 import skku.nftlix_server.nft.Nft;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.ImageResponse;
 import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
+import skku.nftlix_server.nft.dto.response.SingleNftResponse;
 import skku.nftlix_server.nft.exception.ImageServerException;
 import skku.nftlix_server.nft.exception.NftNotFoundException;
 import skku.nftlix_server.nft.repository.NftRepository;
@@ -33,6 +36,7 @@ import java.util.UUID;
 public class NftService {
 
     private final NftRepository nftRepository;
+    private final MemberRepository memberRepository;
     private final BashService bashService;
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -113,5 +117,16 @@ public class NftService {
                 .stream()
                 .map(MultipleNftResponse::of)
                 .toList();
+    }
+
+    public SingleNftResponse findSingleNft(String id) {
+
+        Nft findNft = nftRepository.findById(id).orElseThrow(() -> new NftNotFoundException(id));
+
+        return SingleNftResponse.of(
+                findNft,
+                memberRepository.findById(findNft.getMemberId())
+                        .orElseThrow(() -> new MemberNotFoundException(findNft.getMemberId()))
+        );
     }
 }
