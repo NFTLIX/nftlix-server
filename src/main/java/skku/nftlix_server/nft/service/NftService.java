@@ -41,7 +41,7 @@ public class NftService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     private final String NODE_COMMAND = "node";
-    private final String NFT_MINT_DIRECTORY = "/home/ubuntu/nft-mint/";
+    private final String NFT_MINT_DIRECTORY = "/app/nftlix-nft-mint/";
     private final String NFT_MINT_FILE = "scripts/mint-nft.js";
 
 
@@ -100,9 +100,6 @@ public class NftService {
                         bashService.makeCommand(Arrays.asList(
                                 "cd",
                                 NFT_MINT_DIRECTORY,
-                                "&&",
-                                ".",
-                                "/home/ec2-user/.nvm/nvm.sh",
                                 "&&",
                                 NODE_COMMAND,
                                 NFT_MINT_FILE,
