@@ -3,9 +3,12 @@ package skku.nftlix_server.nft.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import skku.nftlix_server.member.service.MemberService;
+import skku.nftlix_server.nft.dto.request.NftMintRequest;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
@@ -42,5 +45,13 @@ public class NftController {
     public SingleNftResponse findNft(@PathVariable String id) {
 
         return nftService.findSingleNft(id);
+    }
+
+    @PostMapping("/mint")
+    public ResponseEntity<String> mint(@RequestBody NftMintRequest request) {
+
+        nftService.mint(request.id());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("nft minted successfully");
     }
 }
