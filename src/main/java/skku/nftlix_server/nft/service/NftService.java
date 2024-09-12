@@ -73,7 +73,7 @@ public class NftService {
 
         if (response.getStatusCode() == HttpStatus.OK) {
             ImageResponse responseBody = response.getBody();
-            return new NftResponse(Nft.createNft(
+            return new NftResponse(nftRepository.save(Nft.createNft(
                     id,
                     member.getId(),
                     request.name(),
@@ -83,7 +83,7 @@ public class NftService {
                     request.privilege(),
                     responseBody.convertedImageUrl(),
                     responseBody.originalImageUrl(),
-                    responseBody.metadataUrl()
+                    responseBody.metadataUrl())
             ).getId());
         } else {
             throw new ImageServerException();
