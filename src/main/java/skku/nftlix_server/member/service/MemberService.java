@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import skku.nftlix_server.member.Member;
-import skku.nftlix_server.member.dto.request.LoginIdDuplicationCheckRequest;
 import skku.nftlix_server.member.dto.request.LoginRequest;
 import skku.nftlix_server.member.dto.request.SignUpRequest;
 import skku.nftlix_server.member.dto.response.LoginResponse;
@@ -29,16 +28,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public boolean checkLoginIdDuplication(LoginIdDuplicationCheckRequest request) {
+    public void signUp(SignUpRequest request) {
 
         if (memberRepository.existsByLoginId(request.loginId())) {
             throw new LoginIdAlreadyExistsException(request.loginId());
         }
-        return true;
-    }
-
-    public void signUp(SignUpRequest request) {
-
         memberRepository.save(createMember(request.name(), request.loginId(), request.password()));
     }
 
