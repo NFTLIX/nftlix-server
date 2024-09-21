@@ -16,7 +16,6 @@ import skku.nftlix_server.member.repository.MemberRepository;
 import skku.nftlix_server.nft.Nft;
 import skku.nftlix_server.nft.dto.request.NftRequest;
 import skku.nftlix_server.nft.dto.response.ImageResponse;
-import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
 import skku.nftlix_server.nft.dto.response.SingleNftResponse;
 import skku.nftlix_server.nft.exception.ImageServerException;
@@ -108,11 +107,15 @@ public class NftService {
         bashService.executeCommand(generateNFTCommand);
     }
 
-    public List<MultipleNftResponse> findAllNft() {
+    public List<SingleNftResponse> findAllNft() {
 
         return nftRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
                 .stream()
-                .map(MultipleNftResponse::of)
+                .map(nft -> SingleNftResponse.of(
+                        nft,
+                        memberRepository.findById(nft.getMemberId())
+                                .orElseThrow(() -> new MemberNotFoundException(nft.getMemberId())))
+                )
                 .toList();
     }
 
