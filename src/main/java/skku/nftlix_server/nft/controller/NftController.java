@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import skku.nftlix_server.member.service.MemberService;
 import skku.nftlix_server.nft.dto.request.NftMintRequest;
 import skku.nftlix_server.nft.dto.request.NftRequest;
-import skku.nftlix_server.nft.dto.response.MultipleNftResponse;
 import skku.nftlix_server.nft.dto.response.NftResponse;
 import skku.nftlix_server.nft.dto.response.SingleNftResponse;
 import skku.nftlix_server.nft.service.NftService;
@@ -36,7 +35,7 @@ public class NftController {
     }
 
     @GetMapping
-    public List<MultipleNftResponse> findAllNft() {
+    public List<SingleNftResponse> findAllNft() {
 
         return nftService.findAllNft();
     }
