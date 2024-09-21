@@ -62,11 +62,15 @@ public class MemberService {
         // 원하는 쿠키 이름으로 탐색
         for (Cookie cookie : cookies) {
             if ("memberId".equals(cookie.getName())) {
-                return memberRepository.findById(cookie.getValue())
-                        .orElseThrow(() -> new MemberNotFoundException(cookie.getValue()));
+                return getLoginMember(cookie.getValue());
             }
         }
 
         throw new NoLoginMemberException();
+    }
+
+    public Member getLoginMember(String id) {
+
+        return memberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
     }
 }
