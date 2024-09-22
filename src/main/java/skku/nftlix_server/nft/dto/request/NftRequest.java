@@ -29,6 +29,10 @@ public record NftRequest(
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         @Valid
         @NotEmpty
-        String filter
+        String filter,
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        @Valid
+        @NotEmpty
+        String memberId
 ) {
 }
