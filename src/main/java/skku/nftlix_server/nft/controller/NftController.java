@@ -1,6 +1,5 @@
 package skku.nftlix_server.nft.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,10 +27,9 @@ public class NftController {
 
     @PostMapping
     public NftResponse createNft(@RequestPart NftRequest nftRequest,
-                                 @RequestPart MultipartFile image,
-                                 HttpServletRequest request) throws IOException {
+                                 @RequestPart MultipartFile image) throws IOException {
 
-        return nftService.createNft(nftRequest, image, memberService.getLoginMember(request));
+        return nftService.createNft(nftRequest, image, memberService.getLoginMember(nftRequest.memberId()));
     }
 
     @GetMapping
